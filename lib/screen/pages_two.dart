@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_manejadores_estados/models/usuario_model.dart';
 import 'package:flutter_manejadores_estados/services/usuarios_services.dart';
+import 'package:provider/provider.dart';
 
 class PagesTwo extends StatelessWidget {
   const PagesTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final usuarioService = Provider.of<UsuarioService>(
+      context,
+    );
+
     return Scaffold(
       appBar: AppBar(
-        title: StreamBuilder(
-          stream: usuarioService.usuarioStream,
-          //initialData: initialData,
-          builder:
-              (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
-            return snapshot.hasData
-                ? Text("Nombre: ${snapshot.data!.nombre}")
-                : Text("");
-          },
-        ),
+        title: usuarioService.existeUsuario
+            ? Text(usuarioService.usuario!.nombre)
+            : const Text("No User"),
         centerTitle: true,
       ),
       body: Center(
@@ -26,9 +24,16 @@ class PagesTwo extends StatelessWidget {
           MaterialButton(
             color: Colors.blue,
             onPressed: () {
-              final newUsuario = UsuarioModel(
-                  edad: 0, nombre: "Carlos", profesiones: ["Vago"]);
-              usuarioService.cargarUsuario(newUsuario);
+              final newUser = UsuarioModel(
+                  edad: 0,
+                  nombre: "Carlos Jose",
+                  profesiones: [
+                    "Profesion 1",
+                    "Profesion 2",
+                    "Profesion 3",
+                    "Profesion 4"
+                  ]);
+              usuarioService.usuario = newUser;
             },
             child: const Text(
               "Establecer usuario",
@@ -37,7 +42,7 @@ class PagesTwo extends StatelessWidget {
           ),
           MaterialButton(
             onPressed: () {
-              usuarioService.cambiarEdad(40);
+              usuarioService.cambiarEdar(10);
             },
             color: Colors.blue,
             child: const Text(
@@ -46,7 +51,9 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              usuarioService.agregarProfesion();
+            },
             color: Colors.blue,
             child: const Text(
               "Establecer Profesion",

@@ -1,33 +1,33 @@
-import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_manejadores_estados/models/usuario_model.dart';
 
-class _UsuariosService {
+class UsuarioService with ChangeNotifier {
   UsuarioModel? _usuarioModel;
 
-  UsuarioModel? get usuarioModel => _usuarioModel;
+  UsuarioModel? get usuario => _usuarioModel;
 
-  StreamController<UsuarioModel> _usuariosStreamController =
-      StreamController<UsuarioModel>.broadcast();
-  //COloque broadcast para que emita el valor a todos los que lo escuchan
+  bool get existeUsuario => _usuarioModel != null ? true : false;
 
-  Stream<UsuarioModel> get usuarioStream => _usuariosStreamController.stream;
-
-  bool get existeUsuario => (_usuarioModel != null) ? true : false;
-
-  void cargarUsuario(UsuarioModel user) {
+  set usuario(UsuarioModel? user) {
     _usuarioModel = user;
-    _usuariosStreamController.add(user);
+    notifyListeners();
   }
 
-  void cambiarEdad(int edad) {
+  void cambiarEdar(int edad) {
     if (!existeUsuario) return;
-    _usuarioModel!.edad = edad;
-    _usuariosStreamController.add(_usuarioModel!);
+    _usuarioModel?.edad = edad;
+    notifyListeners();
   }
 
-  dispose() {
-    _usuariosStreamController.close();
+  void removerUsuario() {
+    if (!existeUsuario) return;
+    _usuarioModel = null;
+    notifyListeners();
+  }
+
+  void agregarProfesion() {
+    if (!existeUsuario) return;
+    _usuarioModel!.profesiones.add("Profesion new");
+    notifyListeners();
   }
 }
-
-final usuarioService = _UsuariosService();
