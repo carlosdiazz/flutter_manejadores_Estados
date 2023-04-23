@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//Propio
+import 'package:flutter_manejadores_estados/bloc/usuario/usuario_cubit.dart';
 import 'package:flutter_manejadores_estados/models/usuario_model.dart';
-import 'package:flutter_manejadores_estados/services/usuarios_services.dart';
 
 class PagesTwo extends StatelessWidget {
   const PagesTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final usuarioCubit = context.read<UsuarioCubit>();
     return Scaffold(
       appBar: AppBar(
-        title: StreamBuilder(
-          stream: usuarioService.usuarioStream,
-          //initialData: initialData,
-          builder:
-              (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
-            return snapshot.hasData
-                ? Text("Nombre: ${snapshot.data!.nombre}")
-                : Text("");
-          },
-        ),
+        title: const Text("Not user"),
         centerTitle: true,
       ),
       body: Center(
@@ -26,9 +21,9 @@ class PagesTwo extends StatelessWidget {
           MaterialButton(
             color: Colors.blue,
             onPressed: () {
-              final newUsuario = UsuarioModel(
-                  edad: 0, nombre: "Carlos", profesiones: ["Vago"]);
-              usuarioService.cargarUsuario(newUsuario);
+              final newUser = UsuarioModel(
+                  edad: 0, nombre: "Carlos J", profesiones: ["profession 1"]);
+              usuarioCubit.seleccionarUsuario(newUser);
             },
             child: const Text(
               "Establecer usuario",
@@ -37,7 +32,7 @@ class PagesTwo extends StatelessWidget {
           ),
           MaterialButton(
             onPressed: () {
-              usuarioService.cambiarEdad(40);
+              usuarioCubit.cambiarEdad(30);
             },
             color: Colors.blue,
             child: const Text(
@@ -46,7 +41,9 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              usuarioCubit.anadirProfesion();
+            },
             color: Colors.blue,
             child: const Text(
               "Establecer Profesion",
