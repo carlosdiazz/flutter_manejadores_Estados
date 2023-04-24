@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //Propio
-import 'package:flutter_manejadores_estados/bloc/usuario/usuario_cubit.dart';
+
 import 'package:flutter_manejadores_estados/models/usuario_model.dart';
 
 class PagesTwo extends StatelessWidget {
@@ -10,7 +10,6 @@ class PagesTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usuarioCubit = context.read<UsuarioCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Not user"),
@@ -23,7 +22,6 @@ class PagesTwo extends StatelessWidget {
             onPressed: () {
               final newUser = UsuarioModel(
                   edad: 0, nombre: "Carlos J", profesiones: ["profession 1"]);
-              usuarioCubit.seleccionarUsuario(newUser);
             },
             child: const Text(
               "Establecer usuario",
@@ -31,9 +29,7 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {
-              usuarioCubit.cambiarEdad(30);
-            },
+            onPressed: () {},
             color: Colors.blue,
             child: const Text(
               "Cambiar Edad",
@@ -41,9 +37,7 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {
-              usuarioCubit.anadirProfesion();
-            },
+            onPressed: () {},
             color: Colors.blue,
             child: const Text(
               "Establecer Profesion",
