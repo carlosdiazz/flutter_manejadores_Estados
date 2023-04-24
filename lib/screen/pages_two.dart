@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_manejadores_estados/bloc/usuario/user_bloc.dart';
 
 //Propio
 
@@ -10,6 +11,8 @@ class PagesTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<UserBloc>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Not user"),
@@ -22,6 +25,7 @@ class PagesTwo extends StatelessWidget {
             onPressed: () {
               final newUser = UsuarioModel(
                   edad: 0, nombre: "Carlos J", profesiones: ["profession 1"]);
+              userBloc.add(ActivateUserEvent(user: newUser));
             },
             child: const Text(
               "Establecer usuario",
@@ -29,7 +33,9 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              userBloc.add(ChangeUserAgeEvent(10));
+            },
             color: Colors.blue,
             child: const Text(
               "Cambiar Edad",
@@ -37,7 +43,9 @@ class PagesTwo extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              userBloc.add(ChangeUserProfessionEvent("Prefesion Demo"));
+            },
             color: Colors.blue,
             child: const Text(
               "Establecer Profesion",
